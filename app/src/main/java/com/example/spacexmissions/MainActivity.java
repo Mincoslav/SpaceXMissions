@@ -31,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
 
         initImageBitmaps();
-        mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        /*mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         mainActivityViewModel.getMissions().observe(this, new Observer<List<Mission>>() {
             @Override
             public void onChanged(List<Mission> missions) {
 
             }
-        });
+        });*/
         initRecyclerView();
     }
 
