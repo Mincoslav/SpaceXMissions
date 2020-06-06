@@ -1,9 +1,6 @@
 package com.example.spacexmissions;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,13 +8,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListItemClickListener{
 
     private MainActivityViewModel mainActivityViewModel;
 
     public static final String TAG = "MainActivity";
+
+    RecyclerView missionsList;
+    RecyclerView.Adapter missionsAdapter;
 
     //vars
     private ArrayList<String> names = new ArrayList<>();
@@ -29,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate: started.");
+
+        missionsList = findViewById(R.id.recyclerView);
+        missionsList.hasFixedSize();
+        missionsList.setLayoutManager(new LinearLayoutManager(this));
+
+        ArrayList<Mission> missions = new ArrayList<>();
 
         initImageBitmaps();
         /*mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private void initImageBitmaps(){
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
+        imageURLs.addAll(mainActivityViewModel.getMissions().getValue().get(0).)
+
         imageURLs.add("https://images2.imgbox.com/9a/96/nLppz9HW_o.png");
         names.add("Startlink mission");
 
@@ -53,9 +60,13 @@ public class MainActivity extends AppCompatActivity {
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview");
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(names,imageURLs,this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(names,imageURLs, missions, onListItemClickListener, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
+    }
 }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -22,56 +22,61 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<String> imageNames = new ArrayList<>();
-    private ArrayList<String> images = new ArrayList<>();
+    private ArrayList<Mission> missions;
+    final private OnListItemClickListener onListItemClickListener;
     private Context context;
 
-    public RecyclerViewAdapter(ArrayList<String> imageNames, ArrayList<String> images, Context context) {
-        this.imageNames = imageNames;
-        this.images = images;
+    public RecyclerViewAdapter(ArrayList<Mission> missions, OnListItemClickListener onListItemClickListener, Context context) {
         this.context = context;
+        this.missions = missions;
+        this.onListItemClickListener = onListItemClickListener;
     }
 
     @NonNull
-    @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.row_item, parent, false);
+        return new ViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "onBindViewHolder: called");
+
+        //Set the image
+        RequestOptions defaultOptions = new RequestOptions()
+                .error(R.drawable.ic_launcher_background);
 
         Glide.with(context)
                 .asBitmap()
-                .load(images.get(position))
-                .into(holder.mission_patch);
+                .load(missions.get(position))
+                .into(viewHolder.mission_patch);
 
-        holder.mission_name.setText(imageNames.get(position));
+        //Set the text fields
+        viewHolder.mission_name.setText(missions.get(position).getName());
+        viewHolder.mission_description.setText(missions.get(position).getDescription());
+
         
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO add intent to go to ACTIVITY_DETAIL
-                Log.d(TAG, "onClick: clicked on: " + imageNames.get(position));
+                Log.d(TAG, "onClick: clicked on: " + missions.get(position));
 
-                Toast.makeText(context, imageNames.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, missions.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    @Override
+
     public int getItemCount() {
-        return imageNames.size(); //sets the recyclerView tabs
+        return missions.size(); //sets the recyclerView tabs
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView mission_patch;
         TextView mission_name;
+        TextView mission_description;
         LinearLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -79,6 +84,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mission_patch = itemView.findViewById(R.id.mission_patch_small);
             mission_name = itemView.findViewById(R.id.mission_name);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onListItemClickListener.onListItemClick(getAdapterPosition());
+        }
+    }
+
+    private interface OnListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
     }
 }

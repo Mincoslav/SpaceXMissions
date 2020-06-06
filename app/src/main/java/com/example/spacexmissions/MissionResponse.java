@@ -13,9 +13,16 @@ class MissionResponse {
 
     private String details;
 
+    private Links links;
+
     ArrayList<Mission> missions = new ArrayList<>();
 
     public ArrayList<Mission> getMission(){
         return missions;
+    }
+
+    private class Links {
+        private String mission_patch;
+        private String mission_patch_small;
     }
 }
