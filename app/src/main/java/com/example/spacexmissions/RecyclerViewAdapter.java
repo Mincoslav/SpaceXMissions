@@ -34,16 +34,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @NonNull
+    @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-
-
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.row_item, parent, false);
         return new ViewHolder(view);
     }
 
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "onBindViewHolder: called");
 
@@ -52,15 +51,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //Set the image
         /*RequestOptions defaultOptions = new RequestOptions()
                 .error(R.drawable.ic_launcher_background);
-
+*/
         Glide.with(context)
                 .asBitmap()
-                .load(missions.get(position).getLinks().getMissionPatchSmall())
+                .load(viewHolder.mission_patch.getDrawable())
                 .into(viewHolder.mission_patch);
-*/
+
         //Set the text fields
-        viewHolder.mission_name.setText(missions.get(position).getMissionName());
-        viewHolder.mission_description.setText(missions.get(position).getDetails());
+
+        viewHolder.mission_name.setText(viewHolder.mission_name.getText());
+        viewHolder.mission_description.setText(viewHolder.mission_description.getText());
+
 
         
         /*viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });*/
     }
 
-
+    @Override
     public int getItemCount() {
         return missions.size(); //sets the recyclerView tabs
     }

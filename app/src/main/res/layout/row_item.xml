@@ -8,6 +8,7 @@
     android:id="@+id/parent_layout">
 
 
+
     <ImageView
         android:id="@+id/mission_patch_small"
         android:layout_width="100dp"

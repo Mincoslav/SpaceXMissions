@@ -4,11 +4,15 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.spacexmissions.missionModel.Mission;
+
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class Repository {
 
@@ -27,9 +31,9 @@ public class Repository {
         missionApi = ServiceGenerator.getMissionApi();
     }
 
-    public MutableLiveData<MissionResponse> getMissions(){
+    public MutableLiveData<Mission> getMissions(){
 
-        MutableLiveData<MissionResponse> missions = new MutableLiveData<>();
+        MutableLiveData<Mission> missions = new MutableLiveData<>();
         MissionApi missionApi = ServiceGenerator.getMissionApi();
         Call<MissionResponse> call = missionApi.MISSION_RESPONSE_CALL();
         Log.i("Retrofit", "getMissions: " + call.toString());
@@ -44,9 +48,13 @@ public class Repository {
                   //  Mission[] missions1 = gson.fromJson(String.valueOf(response.body()), Mission[].class);
                   //  System.out.println(Arrays.toString(missions1));
                   //  Log.i("Retrofit", "onResponse: " + response.body().get(10).getMissions().getMissionName());
-                    missions.setValue(response.body());
-                    Log.i("Retrofit", "onResponse:getting the body " + response.body().getMissions());
-                    Log.i("Retrofit", "onResponse: "+ missions.getValue().getMissions().getMissionName());
+                    missions.setValue(response.body().getMissions());
+                    Log.i("Retrofit", "onResponse: " + missions.getValue().getMissionName());
+//                    Log.i("Retrofit", "onResponse: " + missions.getValue().getLaunchSite().getSiteNameLong());
+//                    Log.i("Retrofit", "onResponse: IMAGE " + missions.getValue().getLinks().getMissionPatchSmall());
+
+                    Log.i("Retrofit", "onResponse:getting the body " + response.body().flight_number);
+                    Log.i("Retrofit", "onResponse: "+ missions.getValue().getFlightNumber());
                 }
             }
 
