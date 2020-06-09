@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.spacexmissions.missionModel.Mission;
+
 import java.util.List;
 
 @Dao()
@@ -21,9 +23,9 @@ public interface MissionDao {
     @Delete
     void delete(Mission mission);
 
-    @Query("DELETE FROM Mission")
+    //@Query("DELETE FROM Mission")
     void deleteAllNotes();
 
-    @Query("SELECT * FROM Mission ORDER BY priority DESC")
+    //@Query("SELECT * FROM Mission ORDER BY priority DESC")
     LiveData<List<Mission>> getAllNotes();
 }

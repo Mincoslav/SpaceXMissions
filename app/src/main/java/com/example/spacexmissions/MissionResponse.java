@@ -1,28 +1,19 @@
 package com.example.spacexmissions;
 
+import com.example.spacexmissions.missionModel.Mission;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 class MissionResponse {
 
-    private String mission_name;
 
-    private int flight_number; //ID
+    private Mission missions;
 
-    private boolean launch_success;
-
-    private String details;
-
-    private Links links;
-
-    ArrayList<Mission> missions = new ArrayList<>();
-
-    public ArrayList<Mission> getMission(){
-        return missions;
+    @JsonProperty("missions")
+    public Mission getMissions(){
+        return new Mission();
     }
 
-    private class Links {
-        private String mission_patch;
-        private String mission_patch_small;
-    }
 }

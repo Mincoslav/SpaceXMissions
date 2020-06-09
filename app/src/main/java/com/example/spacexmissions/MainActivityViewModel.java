@@ -1,27 +1,23 @@
 package com.example.spacexmissions;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.List;
-
 public class MainActivityViewModel extends ViewModel {
 
-    private MutableLiveData<List<Mission>> mMissions;
-
+    private MutableLiveData<MissionResponse> mMissions;
     private Repository repository;
 
-    public LiveData<List<Mission>> getMissions(){
-        return mMissions;
-    }
-
-    public MainActivityViewModel() {
+    public void init(){
+        if (mMissions != null){
+            return;
+        }
         repository = Repository.getInstance();
+        mMissions = repository.getMissions();
     }
 
-    public MutableLiveData<List<Mission>> updateMissions() {
-        return repository.updateMissions();
+    public MutableLiveData<MissionResponse> getmMissions() {
+        return mMissions;
     }
 
     //TODO add repository methods for access from MainActivity

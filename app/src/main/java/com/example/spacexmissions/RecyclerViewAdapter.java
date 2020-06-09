@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.spacexmissions.missionModel.Mission;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+
+
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.row_item, parent, false);
         return new ViewHolder(view);
@@ -42,29 +47,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "onBindViewHolder: called");
 
+
+
         //Set the image
-        RequestOptions defaultOptions = new RequestOptions()
+        /*RequestOptions defaultOptions = new RequestOptions()
                 .error(R.drawable.ic_launcher_background);
 
         Glide.with(context)
                 .asBitmap()
-                .load(missions.get(position))
+                .load(missions.get(position).getLinks().getMissionPatchSmall())
                 .into(viewHolder.mission_patch);
-
+*/
         //Set the text fields
-        viewHolder.mission_name.setText(missions.get(position).getName());
-        viewHolder.mission_description.setText(missions.get(position).getDescription());
+        viewHolder.mission_name.setText(missions.get(position).getMissionName());
+        viewHolder.mission_description.setText(missions.get(position).getDetails());
 
         
-        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        /*viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO add intent to go to ACTIVITY_DETAIL
                 Log.d(TAG, "onClick: clicked on: " + missions.get(position));
 
-                Toast.makeText(context, missions.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, missions.get(position).getMissionName(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
 
@@ -79,11 +86,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView mission_description;
         LinearLayout parentLayout;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             mission_patch = itemView.findViewById(R.id.mission_patch_small);
             mission_name = itemView.findViewById(R.id.mission_name);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
+            mission_description = itemView.findViewById(R.id.mission_description);
+            //parentLayout = itemView.findViewById(R.id.parent_layout);
             itemView.setOnClickListener(this);
         }
 
@@ -93,7 +101,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    private interface OnListItemClickListener {
+    public interface OnListItemClickListener {
         void onListItemClick(int clickedItemIndex);
     }
 }

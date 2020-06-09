@@ -2,10 +2,8 @@ package com.example.spacexmissions;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -15,11 +13,6 @@ import retrofit2.Response;
 public class Repository {
 
     private static Repository instance;
-    private MutableLiveData<List<Mission>> missions;
-
-    private Repository(){
-        missions = new MutableLiveData<>();
-    }
 
     public static synchronized Repository getInstance(){
         if (instance == null){
@@ -28,25 +21,40 @@ public class Repository {
         return instance;
     }
 
-    public LiveData<List<Mission>> getMissions() {
-        return missions;
+    private MissionApi missionApi;
+
+    public Repository(){
+        missionApi = ServiceGenerator.getMissionApi();
     }
 
-    public MutableLiveData<List<Mission>> updateMissions(){
+    public MutableLiveData<MissionResponse> getMissions(){
 
+        MutableLiveData<MissionResponse> missions = new MutableLiveData<>();
         MissionApi missionApi = ServiceGenerator.getMissionApi();
-        Call<MissionResponse> call = missionApi.getMissions();
+        Call<MissionResponse> call = missionApi.MISSION_RESPONSE_CALL();
+        Log.i("Retrofit", "getMissions: " + call.toString());
         call.enqueue(new Callback<MissionResponse>() {
             @Override
-            public void onResponse(Call<MissionResponse> call, Response<MissionResponse> response) {
+            public void onResponse(Call<MissionResponse> call,
+                                   Response<MissionResponse> response) {
+                Log.i("Retrofit", "onResponse: Response: " + response.code());
+                Log.i("Retrofit", "onResponse: Response: " + response.toString());
                 if (response.code() == 200){
-                    missions.setValue(response.body().getMission());
-                    System.out.println(response.body().getMission().toString());
+                  //  Gson gson = new Gson();
+                  //  Mission[] missions1 = gson.fromJson(String.valueOf(response.body()), Mission[].class);
+                  //  System.out.println(Arrays.toString(missions1));
+                  //  Log.i("Retrofit", "onResponse: " + response.body().get(10).getMissions().getMissionName());
+                    missions.setValue(response.body());
+                    Log.i("Retrofit", "onResponse:getting the body " + response.body().getMissions());
+                    Log.i("Retrofit", "onResponse: "+ missions.getValue().getMissions().getMissionName());
                 }
             }
 
             @Override
             public void onFailure(Call<MissionResponse> call, Throwable t) {
+                Log.i("Retrofit", "onFailure: " + call.toString());
+                Log.i("Retrofit", "onFailure: Response: " + t.getMessage());
+                Log.i("Retrofit", "onFailure: Response: " + t.toString());
                 Log.i("Retrofit", "onFailure: Something fucked up and you should switch to database");
                 //TODO implement using local database cache
             }

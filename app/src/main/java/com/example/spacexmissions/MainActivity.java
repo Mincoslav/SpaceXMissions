@@ -1,13 +1,19 @@
 package com.example.spacexmissions;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.spacexmissions.missionModel.Mission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListItemClickListener{
 
@@ -15,27 +21,28 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     public static final String TAG = "MainActivity";
 
-    RecyclerView missionsList;
-    RecyclerView.Adapter missionsAdapter;
+    private ArrayList<Mission> missions = new ArrayList<>();
+    RecyclerView rvMissions;
+    MainActivityViewModel viewModel;
+    RecyclerViewAdapter adapter;
 
-    //vars
-    private ArrayList<String> names = new ArrayList<>();
-    private ArrayList<String> imageURLs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         Log.d(TAG, "onCreate: started.");
 
-        missionsList = findViewById(R.id.recyclerView);
-        missionsList.hasFixedSize();
-        missionsList.setLayoutManager(new LinearLayoutManager(this));
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        rvMissions = findViewById(R.id.recyclerView);
+
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel.init();
+
+
 
         ArrayList<Mission> missions = new ArrayList<>();
 
-        initImageBitmaps();
+
         /*mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         mainActivityViewModel.getMissions().observe(this, new Observer<List<Mission>>() {
             @Override
@@ -43,30 +50,38 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
             }
         });*/
+
+        //setupRecyclerView();
         initRecyclerView();
     }
 
-    private void initImageBitmaps(){
-        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
+    private void setupRecyclerView(){
+        if (adapter == null) {
+            adapter = new RecyclerViewAdapter(missions,this,MainActivity.this);
+            rvMissions.setAdapter(adapter);
+            rvMissions.setLayoutManager(new LinearLayoutManager(this));
+            rvMissions.setItemAnimator(new DefaultItemAnimator());
+            rvMissions.setNestedScrollingEnabled(true);
+        }
+        else {
+            adapter.notifyDataSetChanged();
+        }
 
-        imageURLs.addAll(mainActivityViewModel.getMissions().getValue().get(0).)
-
-        imageURLs.add("https://images2.imgbox.com/9a/96/nLppz9HW_o.png");
-        names.add("Startlink mission");
-
-        initRecyclerView();
     }
     
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview");
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(names,imageURLs, missions, onListItemClickListener, this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(missions,this,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-
+      //  String missionName = viewModel.getmMissions().getValue().get(clickedItemIndex).getMissionName();
+      //  Toast.makeText(this, "Mission you clicked" + missionName, Toast.LENGTH_SHORT).show();
     }
 }
