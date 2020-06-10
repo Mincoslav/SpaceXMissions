@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -73,7 +74,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     @Override
     public void onListItemClick(int clickedItemIndex) {
         String missionName = viewModel.getMissions().getValue().getMission_name();
+        String missionDescription = viewModel.getMissions().getValue().getDetails();
+        String missionPatchURL = viewModel.getMissions().getValue().getLinks().getMissionPatch();
         Log.i(TAG, "onListItemClick: " + viewModel.getMissions().getValue().getMission_name());
         Toast.makeText(this, "Mission you clicked" + missionName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Mission id you clicked" + missionDescription, Toast.LENGTH_SHORT).show();
+        Intent detailsIntent = new Intent(MainActivity.this, ActivityDetail.class);
+        detailsIntent.putExtra("mission_name", missionName);
+        detailsIntent.putExtra("mission_description", missionDescription);
+        detailsIntent.putExtra("mission_patch_URL", missionPatchURL);
+        startActivity(detailsIntent);
     }
 }
