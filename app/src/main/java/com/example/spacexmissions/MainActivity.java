@@ -19,7 +19,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListItemClickListener{
 
 
-    private ArrayList<Mission> missions = new ArrayList<>();
+    private static final String TAG = "MAIN ACTIVITY";
+    private ArrayList<MissionResponse> missions = new ArrayList<>();
     RecyclerView rvMissions;
     MainActivityViewModel viewModel;
     RecyclerViewAdapter adapter;
@@ -40,11 +41,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         viewModel = new MainActivityViewModel();
 
         viewModel.init();
+
         missions.add(viewModel.getMissions().getValue());
 
         mAdapter = new RecyclerViewAdapter(missions, this, getApplicationContext());
         rvMissions.setAdapter(mAdapter);
 
+        try {
+            String missionName = viewModel.getMissions().getValue().getMission_name();
+            Log.i(TAG, "onCreate: " + missionName);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
 
 
@@ -60,12 +70,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     }
 
-
-
-
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        String missionName = viewModel.getMissions().getValue().getMissionName();
+        String missionName = viewModel.getMissions().getValue().getMission_name();
+        Log.i(TAG, "onListItemClick: " + viewModel.getMissions().getValue().getMission_name());
         Toast.makeText(this, "Mission you clicked" + missionName, Toast.LENGTH_SHORT).show();
     }
 }

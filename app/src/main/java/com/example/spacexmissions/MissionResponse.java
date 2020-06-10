@@ -29,6 +29,25 @@ class MissionResponse {
         return new Mission();
     }
 
+   // private class
 
+    public int getFlight_number() {
+        return flight_number;
+    }
 
+    public String getMission_name() {
+        return mission_name;
+    }
+
+    public LaunchSite getLaunch_site() {
+        return launch_site;
+    }
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public String getDetails() {
+        return details;
+    }
 }

@@ -23,14 +23,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<Mission> missions;
+    private ArrayList<MissionResponse> missions;
     final private OnListItemClickListener onListItemClickListener;
     private Context context;
+    private MainActivityViewModel viewModel;
 
-    public RecyclerViewAdapter(ArrayList<Mission> missions, OnListItemClickListener onListItemClickListener, Context context) {
+    public RecyclerViewAdapter(ArrayList<MissionResponse> missions, OnListItemClickListener onListItemClickListener, Context context) {
         this.context = context;
         this.missions = missions;
         this.onListItemClickListener = onListItemClickListener;
+//        Log.i(TAG, "RecyclerViewAdapter: " + missions.get(0).mission_name);
     }
 
     @NonNull
@@ -39,6 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.row_item, parent, false);
+        ;
         return new ViewHolder(view);
     }
 
@@ -46,21 +49,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "onBindViewHolder: called");
 
+        try {
+            Glide.with(viewHolder.mission_patch)
+                    .asDrawable()
+                    .load(missions.get(position).links.getMissionPatchSmall())
+                    .into(viewHolder.mission_patch);
+
+            //Set the text fields
+
+            viewHolder.mission_name.setText(missions.get(position).mission_name);
+            Log.i(TAG, "onBindViewHolder: " + missions.get(position).getMission_name());
+            viewHolder.mission_description.setText(missions.get(position).getDetails());
+            Log.i(TAG, "onBindViewHolder: " + missions.get(position).getDetails());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        missions = new ArrayList<>();
+//        viewModel = new MainActivityViewModel();
+//        viewModel.init();
+//        missions.add(viewModel.getMissions().getValue());
 
 
         //Set the image
         /*RequestOptions defaultOptions = new RequestOptions()
                 .error(R.drawable.ic_launcher_background);
 */
-        Glide.with(context)
-                .asBitmap()
-                .load(viewHolder.mission_patch.getDrawable())
-                .into(viewHolder.mission_patch);
-
-        //Set the text fields
-
-        viewHolder.mission_name.setText(viewHolder.mission_name.getText());
-        viewHolder.mission_description.setText(viewHolder.mission_description.getText());
 
 
         

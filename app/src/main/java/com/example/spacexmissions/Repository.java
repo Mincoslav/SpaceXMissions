@@ -31,9 +31,9 @@ public class Repository {
         missionApi = ServiceGenerator.getMissionApi();
     }
 
-    public MutableLiveData<Mission> getMissions(){
+    public MutableLiveData<MissionResponse> getMissions(){
 
-        MutableLiveData<Mission> missions = new MutableLiveData<>();
+        MutableLiveData<MissionResponse> missions = new MutableLiveData<>();
         MissionApi missionApi = ServiceGenerator.getMissionApi();
         Call<MissionResponse> call = missionApi.MISSION_RESPONSE_CALL();
         Log.i("Retrofit", "getMissions: " + call.toString());
@@ -48,13 +48,13 @@ public class Repository {
                   //  Mission[] missions1 = gson.fromJson(String.valueOf(response.body()), Mission[].class);
                   //  System.out.println(Arrays.toString(missions1));
                   //  Log.i("Retrofit", "onResponse: " + response.body().get(10).getMissions().getMissionName());
-                    missions.setValue(response.body().getMissions());
-                    Log.i("Retrofit", "onResponse: " + missions.getValue().getMissionName());
+                    missions.setValue(response.body());
+                    Log.i("Retrofit", "onResponse: " + missions.getValue().getMission_name());
 //                    Log.i("Retrofit", "onResponse: " + missions.getValue().getLaunchSite().getSiteNameLong());
 //                    Log.i("Retrofit", "onResponse: IMAGE " + missions.getValue().getLinks().getMissionPatchSmall());
 
                     Log.i("Retrofit", "onResponse:getting the body " + response.body().flight_number);
-                    Log.i("Retrofit", "onResponse: "+ missions.getValue().getFlightNumber());
+                    Log.i("Retrofit", "onResponse: "+ missions.getValue().getMission_name());
                 }
             }
 
@@ -68,24 +68,6 @@ public class Repository {
             }
         });
 
-
-        /*final MutableLiveData<List<Mission>> missions = new MutableLiveData<>();
-
-        ServiceGenerator.getMissionApi().getMissions().enqueue(new Callback<MissionResponse>() {
-            @Override
-            public void onResponse(Call<MissionResponse> call, Response<MissionResponse> response) {
-                if (response.code() == 200){
-                    System.out.println("PRINTING MISSION: " + response.body().getMission().get(0));
-                    missions.setValue(response.body().getMission());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MissionResponse> call, Throwable t) {
-                Log.i("Retrofit", "Something went wrong :(");
-                //TODO Load it from the room database
-            }
-        });*/
         return missions;
     }
 }

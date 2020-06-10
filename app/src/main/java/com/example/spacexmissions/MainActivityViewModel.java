@@ -1,5 +1,8 @@
 package com.example.spacexmissions;
 
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -7,7 +10,7 @@ import com.example.spacexmissions.missionModel.Mission;
 
 public class MainActivityViewModel extends ViewModel {
 
-    private MutableLiveData<Mission> mMissions;
+    private LiveData<MissionResponse> mMissions;
     private Repository repository;
 
     public void init(){
@@ -19,8 +22,8 @@ public class MainActivityViewModel extends ViewModel {
 
     }
 
-    public MutableLiveData<Mission> getMissions() {
-//        System.out.println("++++++++++"+mMissions.getValue().mission_name);
+    public LiveData<MissionResponse> getMissions() {
+//        Log.i("ViewModel", "getMissions: " + mMissions.getValue().getMission_name());
         return mMissions;
     }
 
