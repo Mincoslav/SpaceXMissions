@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
 
     private static final String TAG = "MAIN ACTIVITY";
-    private ArrayList<MissionResponse> missions = new ArrayList<>();
+    private ArrayList<List<MissionResponse>> missions = new ArrayList<>();
     RecyclerView rvMissions;
     MainActivityViewModel viewModel;
     RecyclerViewAdapter adapter;
@@ -70,23 +70,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        String missionName = viewModel.getMissions().getValue().getMission_name();
-        String missionDescription = viewModel.getMissions().getValue().getDetails();
-        String missionPatchURL = viewModel.getMissions().getValue().getLinks().getMissionPatch();
-        Log.i(TAG, "onListItemClick: " + viewModel.getMissions().getValue().getMission_name());
+        String missionName = viewModel.getMissions().getValue().get(clickedItemIndex).getMission_name();
+        String missionDescription = viewModel.getMissions().getValue().get(clickedItemIndex).getDetails();
+        String missionPatchURL = viewModel.getMissions().getValue().get(clickedItemIndex).getLinks().getMissionPatch();
+        String launchSiteName = viewModel.getMissions().getValue().get(clickedItemIndex).getLaunch_site().getSiteNameLong();
+
+        Log.i(TAG, "onListItemClick: " + viewModel.getMissions().getValue().get(clickedItemIndex).getMission_name());
         Toast.makeText(this, "Mission you clicked" + missionName, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Mission id you clicked" + missionDescription, Toast.LENGTH_SHORT).show();
         Intent detailsIntent = new Intent(MainActivity.this, ActivityDetail.class);
         detailsIntent.putExtra("mission_name", missionName);
         detailsIntent.putExtra("mission_description", missionDescription);
         detailsIntent.putExtra("mission_patch_URL", missionPatchURL);
+        detailsIntent.putExtra("launch_site", launchSiteName);
+
         startActivity(detailsIntent);
     }
 
     public void updateButton(View view) {
-        viewModel.getMissions().observe(this, new Observer<MissionResponse>() {
+        viewModel.getMissions().observe(this, new Observer<List<MissionResponse>>() {
             @Override
-            public void onChanged(MissionResponse missionResponse) {
+            public void onChanged(List<MissionResponse> missionResponses) {
                 mAdapter.notifyDataSetChanged();
             }
         });

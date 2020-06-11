@@ -26,6 +26,8 @@ public interface MissionDao {
     //@Query("DELETE FROM Mission")
     void deleteAllNotes();
 
+    //TODO location latitude/longitude matched to a name in database
+
     //@Query("SELECT * FROM Mission ORDER BY priority DESC")
     LiveData<List<Mission>> getAllNotes();
 }

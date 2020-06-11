@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.spacexmissions.missionModel.Mission;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -17,6 +18,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class Repository {
 
     private static Repository instance;
+    List<MissionResponse> missionResponseList;
 
     public static synchronized Repository getInstance(){
         if (instance == null){
@@ -29,9 +31,10 @@ public class Repository {
 
     public Repository(){
         missionApi = ServiceGenerator.getMissionApi();
+        missionResponseList = new ArrayList<>();
     }
 
-    public MutableLiveData<MissionResponse> getMissions(int flightNumber){
+    public MutableLiveData<List<MissionResponse>> getMissions(int flightNumber){
 
         MutableLiveData<MissionResponse> missions = new MutableLiveData<>();
         MissionApi missionApi = ServiceGenerator.getMissionApi();
@@ -56,6 +59,10 @@ public class Repository {
 
                     Log.i("Retrofit", "onResponse:getting the body " + response.body().flight_number);
                     Log.i("Retrofit", "onResponse: "+ missions.getValue().getMission_name());
+
+
+
+                    missionResponseList.add(response.body());
                 }
             }
 
@@ -69,6 +76,9 @@ public class Repository {
             }
         });
 
-        return missions;
+        MutableLiveData<List<MissionResponse>> listMutableLiveData = new MutableLiveData<>();
+        listMutableLiveData.setValue(missionResponseList);
+
+        return listMutableLiveData;
     }
 }

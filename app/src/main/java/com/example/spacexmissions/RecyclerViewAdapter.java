@@ -18,17 +18,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.spacexmissions.missionModel.Mission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<MissionResponse> missions;
+    private ArrayList<List<MissionResponse>> missions;
     final private OnListItemClickListener onListItemClickListener;
     private Context context;
     private MainActivityViewModel viewModel;
 
-    public RecyclerViewAdapter(ArrayList<MissionResponse> missions, OnListItemClickListener onListItemClickListener, Context context) {
+    public RecyclerViewAdapter(ArrayList<List<MissionResponse>> missions, OnListItemClickListener onListItemClickListener, Context context) {
         this.context = context;
         this.missions = missions;
         this.onListItemClickListener = onListItemClickListener;
@@ -52,15 +53,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         try {
             Glide.with(viewHolder.mission_patch)
                     .asDrawable()
-                    .load(missions.get(position).links.getMissionPatchSmall())
+                    .load(missions.get(position).get(position).links.getMissionPatchSmall())
                     .into(viewHolder.mission_patch);
 
             //Set the text fields
 
-            viewHolder.mission_name.setText(missions.get(position).mission_name);
-            Log.i(TAG, "onBindViewHolder: " + missions.get(position).getMission_name());
-            viewHolder.mission_description.setText(missions.get(position).getDetails());
-            Log.i(TAG, "onBindViewHolder: " + missions.get(position).getDetails());
+            viewHolder.mission_name.setText(missions.get(position).get(position).mission_name);
+            Log.i(TAG, "onBindViewHolder: " + missions.get(position).get(position).getMission_name());
+            viewHolder.mission_description.setText(missions.get(position).get(position).getDetails());
+            Log.i(TAG, "onBindViewHolder: " + missions.get(position).get(position).getDetails());
         }
         catch (Exception e) {
             e.printStackTrace();
