@@ -8,17 +8,25 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.spacexmissions.missionModel.Mission;
 
+import java.util.Random;
+
 public class MainActivityViewModel extends ViewModel {
 
     private LiveData<MissionResponse> mMissions;
     private Repository repository;
+    Random random = new Random();
+
+    public int getFlightNumber(){
+
+        return random.nextInt(100);
+    }
 
     public void init(){
         if (mMissions != null){
             return;
         }
         repository = Repository.getInstance();
-        mMissions = repository.getMissions();
+        mMissions = repository.getMissions(random.nextInt(100));
 
     }
 

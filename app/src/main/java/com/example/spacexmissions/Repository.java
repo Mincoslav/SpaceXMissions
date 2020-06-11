@@ -31,11 +31,11 @@ public class Repository {
         missionApi = ServiceGenerator.getMissionApi();
     }
 
-    public MutableLiveData<MissionResponse> getMissions(){
+    public MutableLiveData<MissionResponse> getMissions(int flightNumber){
 
         MutableLiveData<MissionResponse> missions = new MutableLiveData<>();
         MissionApi missionApi = ServiceGenerator.getMissionApi();
-        Call<MissionResponse> call = missionApi.MISSION_RESPONSE_CALL();
+        Call<MissionResponse> call = missionApi.MISSION_RESPONSE_CALL(flightNumber);
         Log.i("Retrofit", "getMissions: " + call.toString());
         call.enqueue(new Callback<MissionResponse>() {
             @Override
@@ -48,6 +48,7 @@ public class Repository {
                   //  Mission[] missions1 = gson.fromJson(String.valueOf(response.body()), Mission[].class);
                   //  System.out.println(Arrays.toString(missions1));
                   //  Log.i("Retrofit", "onResponse: " + response.body().get(10).getMissions().getMissionName());
+
                     missions.setValue(response.body());
                     Log.i("Retrofit", "onResponse: " + missions.getValue().getMission_name());
 //                    Log.i("Retrofit", "onResponse: " + missions.getValue().getLaunchSite().getSiteNameLong());

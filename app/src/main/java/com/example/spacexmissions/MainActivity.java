@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.spacexmissions.missionModel.Mission;
@@ -17,7 +18,7 @@ import com.example.spacexmissions.missionModel.Mission;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListItemClickListener{
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListItemClickListener {
 
 
     private static final String TAG = "MAIN ACTIVITY";
@@ -26,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     MainActivityViewModel viewModel;
     RecyclerViewAdapter adapter;
     RecyclerView.Adapter mAdapter;
-
 
 
     @Override
@@ -48,16 +48,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         mAdapter = new RecyclerViewAdapter(missions, this, getApplicationContext());
         rvMissions.setAdapter(mAdapter);
 
-        try {
-            String missionName = viewModel.getMissions().getValue().getMission_name();
-            Log.i(TAG, "onCreate: " + missionName);
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-
+        mAdapter.notifyDataSetChanged();
+//        try {
+//          //  String missionName = viewModel.getMissions().
+//           // Log.i(TAG, "onCreate: " + missionName);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
 //        mainActivityViewModel.getMissions().observe(this, new Observer<MissionResponse>() {
@@ -66,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 //
 //            }
 //        });
-
 
 
     }
@@ -84,5 +81,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         detailsIntent.putExtra("mission_description", missionDescription);
         detailsIntent.putExtra("mission_patch_URL", missionPatchURL);
         startActivity(detailsIntent);
+    }
+
+    public void updateButton(View view) {
+        viewModel.getMissions().observe(this, new Observer<MissionResponse>() {
+            @Override
+            public void onChanged(MissionResponse missionResponse) {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
