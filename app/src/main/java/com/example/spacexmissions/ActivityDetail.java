@@ -30,11 +30,14 @@ public class ActivityDetail extends AppCompatActivity {
         TextView missionDescriptionView = findViewById(R.id.mission_description);
         ImageView missionPatchLarge = findViewById(R.id.mission_patch_large);
         TextView launchSite = findViewById(R.id.launch_site);
+        TextView missionIdView = findViewById(R.id.mission_ID);
 
         bundle = getIntent().getExtras();
         String missionName = bundle.getString("mission_name");
         String missionDescription = bundle.getString("mission_description");
         String missionPatchURL = bundle.getString("mission_patch_URL");
+        String launchSiteName = bundle.getString("launch_site");
+        int missionID = bundle.getInt("mission_id");
 
         try {
             Glide.with(this)
@@ -44,6 +47,8 @@ public class ActivityDetail extends AppCompatActivity {
 
             missionNameView.setText(missionName);
             missionDescriptionView.setText(missionDescription);
+            launchSite.setText(launchSiteName);
+            missionIdView.setText(missionID+"");
         }
         catch (Exception e){
             e.printStackTrace();

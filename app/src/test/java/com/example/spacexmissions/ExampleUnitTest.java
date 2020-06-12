@@ -10,6 +10,14 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    MainActivityViewModel viewModel = new MainActivityViewModel();
+    MissionResponse missionResponse = new MissionResponse();
+    @Test
+    public void getsResponse(){
+        assertEquals(missionResponse.getClass(), viewModel.getMissions().getValue().get(0).getClass());
+    }
+
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);

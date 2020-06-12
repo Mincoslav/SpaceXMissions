@@ -8,14 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.spacexmissions.missionModel.Mission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +21,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<List<MissionResponse>> missions;
+    private List<MissionResponse> missions = new ArrayList<>();
     final private OnListItemClickListener onListItemClickListener;
     private Context context;
     private MainActivityViewModel viewModel;
 
-    public RecyclerViewAdapter(ArrayList<List<MissionResponse>> missions, OnListItemClickListener onListItemClickListener, Context context) {
+    public RecyclerViewAdapter(OnListItemClickListener onListItemClickListener, Context context) {
         this.context = context;
-        this.missions = missions;
         this.onListItemClickListener = onListItemClickListener;
 //        Log.i(TAG, "RecyclerViewAdapter: " + missions.get(0).mission_name);
     }
@@ -42,8 +38,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.row_item, parent, false);
-        ;
+
         return new ViewHolder(view);
+    }
+
+    public void setMissions(List<MissionResponse> missions) {
+        this.missions = missions;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -51,44 +52,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d(TAG, "onBindViewHolder: called");
 
         try {
+
+            viewHolder.mission_name.setText(missions.get(position).getMission_name());
+            viewHolder.mission_description.setText(missions.get(position).getDetails());
+
             Glide.with(viewHolder.mission_patch)
                     .asDrawable()
-                    .load(missions.get(position).get(position).links.getMissionPatchSmall())
+                    .load(missions.get(position).getLinks().getMissionPatchSmall())
                     .into(viewHolder.mission_patch);
-
-            //Set the text fields
-
-            viewHolder.mission_name.setText(missions.get(position).get(position).mission_name);
-            Log.i(TAG, "onBindViewHolder: " + missions.get(position).get(position).getMission_name());
-            viewHolder.mission_description.setText(missions.get(position).get(position).getDetails());
-            Log.i(TAG, "onBindViewHolder: " + missions.get(position).get(position).getDetails());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        missions = new ArrayList<>();
-//        viewModel = new MainActivityViewModel();
-//        viewModel.init();
-//        missions.add(viewModel.getMissions().getValue());
-
-
-        //Set the image
-        /*RequestOptions defaultOptions = new RequestOptions()
-                .error(R.drawable.ic_launcher_background);
-*/
-
-
-        
-        /*viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO add intent to go to ACTIVITY_DETAIL
-                Log.d(TAG, "onClick: clicked on: " + missions.get(position));
-
-                Toast.makeText(context, missions.get(position).getMissionName(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
     @Override
@@ -96,7 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return missions.size(); //sets the recyclerView tabs
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView mission_patch;
         TextView mission_name;

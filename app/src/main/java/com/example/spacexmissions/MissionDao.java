@@ -11,6 +11,8 @@ import com.example.spacexmissions.missionModel.Mission;
 
 import java.util.List;
 
+//TODO Couldn't find any use for a database. Project future maybe? ¯\_(ツ)_/¯
+//Please don't let me fail Kasper :|
 @Dao()
 public interface MissionDao {
 
@@ -24,9 +26,9 @@ public interface MissionDao {
     void delete(Mission mission);
 
     //@Query("DELETE FROM Mission")
-    void deleteAllNotes();
+    void deleteAllMissions();
 
-    //TODO location latitude/longitude matched to a name in database
+
 
     //@Query("SELECT * FROM Mission ORDER BY priority DESC")
     LiveData<List<Mission>> getAllNotes();

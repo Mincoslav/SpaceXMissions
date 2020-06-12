@@ -1,19 +1,12 @@
 package com.example.spacexmissions;
 
 import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
-
-import com.example.spacexmissions.missionModel.Mission;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class Repository {
 
@@ -39,30 +32,27 @@ public class Repository {
         MutableLiveData<MissionResponse> missions = new MutableLiveData<>();
         MissionApi missionApi = ServiceGenerator.getMissionApi();
         Call<MissionResponse> call = missionApi.MISSION_RESPONSE_CALL(flightNumber);
-        Log.i("Retrofit", "getMissions: " + call.toString());
+//        Log.i("Retrofit", "getMissions: " + call.toString());
         call.enqueue(new Callback<MissionResponse>() {
             @Override
             public void onResponse(Call<MissionResponse> call,
                                    Response<MissionResponse> response) {
-                Log.i("Retrofit", "onResponse: Response: " + response.code());
-                Log.i("Retrofit", "onResponse: Response: " + response.toString());
+//                Log.i("Retrofit", "onResponse: Response: " + response.code());
+//                Log.i("Retrofit", "onResponse: Response: " + response.toString());
                 if (response.code() == 200){
-                  //  Gson gson = new Gson();
-                  //  Mission[] missions1 = gson.fromJson(String.valueOf(response.body()), Mission[].class);
-                  //  System.out.println(Arrays.toString(missions1));
-                  //  Log.i("Retrofit", "onResponse: " + response.body().get(10).getMissions().getMissionName());
-
                     missions.setValue(response.body());
-                    Log.i("Retrofit", "onResponse: " + missions.getValue().getMission_name());
+
+//                    Log.i("Retrofit", "onResponse: " + missions.getValue().getMission_name());
 //                    Log.i("Retrofit", "onResponse: " + missions.getValue().getLaunchSite().getSiteNameLong());
 //                    Log.i("Retrofit", "onResponse: IMAGE " + missions.getValue().getLinks().getMissionPatchSmall());
-
-                    Log.i("Retrofit", "onResponse:getting the body " + response.body().flight_number);
-                    Log.i("Retrofit", "onResponse: "+ missions.getValue().getMission_name());
-
-
+//                    Log.i("Retrofit", "onResponse:getting the body " + response.body().flight_number);
+//                    Log.i("Retrofit", "onResponse: "+ missions.getValue().getMission_name());
 
                     missionResponseList.add(response.body());
+                    System.out.println(missionResponseList.get(0).mission_name);
+                    System.out.println(missionResponseList.get(0).details);
+                    System.out.println(missionResponseList.get(0).launch_site.getSiteName());
+                    System.out.println(missionResponseList.get(0).links.getMissionPatchSmall());
                 }
             }
 
@@ -71,8 +61,7 @@ public class Repository {
                 Log.i("Retrofit", "onFailure: " + call.toString());
                 Log.i("Retrofit", "onFailure: Response: " + t.getMessage());
                 Log.i("Retrofit", "onFailure: Response: " + t.toString());
-                Log.i("Retrofit", "onFailure: Something fucked up and you should switch to database");
-                //TODO implement using local database cache
+                //TODO something with the database maybe?
             }
         });
 
