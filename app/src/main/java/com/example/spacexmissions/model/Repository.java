@@ -1,4 +1,4 @@
-package com.example.spacexmissions;
+package com.example.spacexmissions.model;
 
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;

@@ -1,5 +1,8 @@
 package com.example.spacexmissions;
 
+import com.example.spacexmissions.model.MissionResponse;
+import com.example.spacexmissions.viewmodel.MainActivityViewModel;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,4 +1,4 @@
-package com.example.spacexmissions;
+package com.example.spacexmissions.model;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

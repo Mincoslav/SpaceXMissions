@@ -1,7 +1,10 @@
-package com.example.spacexmissions;
+package com.example.spacexmissions.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.spacexmissions.model.MissionResponse;
+import com.example.spacexmissions.model.Repository;
 
 import java.util.List;
 import java.util.Random;

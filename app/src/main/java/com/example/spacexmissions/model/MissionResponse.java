@@ -1,4 +1,4 @@
-package com.example.spacexmissions;
+package com.example.spacexmissions.model;
 
 import com.example.spacexmissions.missionModel.LaunchSite;
 import com.example.spacexmissions.missionModel.Links;
@@ -6,7 +6,7 @@ import com.example.spacexmissions.missionModel.Mission;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-class MissionResponse {
+public class MissionResponse {
 
 
     public Mission missions;

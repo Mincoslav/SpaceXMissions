@@ -1,4 +1,4 @@
-package com.example.spacexmissions;
+package com.example.spacexmissions.model;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

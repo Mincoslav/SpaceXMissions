@@ -1,20 +1,19 @@
-package com.example.spacexmissions;
+package com.example.spacexmissions.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.example.spacexmissions.missionModel.Mission;
+import com.example.spacexmissions.viewmodel.MainActivityViewModel;
+import com.example.spacexmissions.model.MissionResponse;
+import com.example.spacexmissions.R;
+import com.example.spacexmissions.model.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

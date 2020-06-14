@@ -1,4 +1,4 @@
-package com.example.spacexmissions;
+package com.example.spacexmissions.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.spacexmissions.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

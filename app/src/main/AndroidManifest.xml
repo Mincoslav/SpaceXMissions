@@ -20,12 +20,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".views.MapsActivity"
             android:label="@string/launch_site"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ActivityDetail"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".MainActivity">
+            android:parentActivityName=".views.MainActivity"/>
+        <activity android:name=".views.ActivityDetail"
+            android:parentActivityName=".views.MainActivity"/>
+        <activity android:name=".views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
