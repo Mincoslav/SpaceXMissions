@@ -19,8 +19,6 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
-
     private List<MissionResponse> missions = new ArrayList<>();
     final private OnListItemClickListener onListItemClickListener;
     private Context context;
@@ -29,7 +27,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(OnListItemClickListener onListItemClickListener, Context context) {
         this.context = context;
         this.onListItemClickListener = onListItemClickListener;
-//        Log.i(TAG, "RecyclerViewAdapter: " + missions.get(0).mission_name);
     }
 
     @NonNull
@@ -49,7 +46,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called");
 
         try {
 
@@ -75,14 +71,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ImageView mission_patch;
         TextView mission_name;
         TextView mission_description;
-        LinearLayout parentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mission_patch = itemView.findViewById(R.id.mission_patch_small);
             mission_name = itemView.findViewById(R.id.mission_name);
             mission_description = itemView.findViewById(R.id.mission_description);
-            //parentLayout = itemView.findViewById(R.id.parent_layout);
             itemView.setOnClickListener(this);
         }
 

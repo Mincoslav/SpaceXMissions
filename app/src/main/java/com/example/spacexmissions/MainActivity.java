@@ -21,7 +21,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnListItemClickListener {
 
-    private static final String TAG = "MAIN ACTIVITY";
     private List<MissionResponse> missions = new ArrayList<>();
     RecyclerView rvMissions;
     MainActivityViewModel viewModel;
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        Log.d("MainActivity ", "onCreate: started.");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -53,16 +51,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-//        Log.i(TAG, "onListItemClick: clickedItemIndex" + clickedItemIndex);
         String missionName = viewModel.getMissions().getValue().get(clickedItemIndex).getMission_name();
         String missionDescription = viewModel.getMissions().getValue().get(clickedItemIndex).getDetails();
         String missionPatchURL = viewModel.getMissions().getValue().get(clickedItemIndex).getLinks().getMissionPatch();
         String launchSiteName = viewModel.getMissions().getValue().get(clickedItemIndex).getLaunch_site().getSiteNameLong();
         int missionID = viewModel.getMissions().getValue().get(clickedItemIndex).getFlight_number();
 
-//        Log.i(TAG, "onListItemClick: " + viewModel.getMissions().getValue().get(clickedItemIndex).getMission_name());
-//        Toast.makeText(this, "Mission you clicked" + missionName, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, "Mission id you clicked" + missionDescription, Toast.LENGTH_SHORT).show();
+
         Intent detailsIntent = new Intent(MainActivity.this, ActivityDetail.class);
         detailsIntent.putExtra("mission_name", missionName);
         detailsIntent.putExtra("mission_description", missionDescription);

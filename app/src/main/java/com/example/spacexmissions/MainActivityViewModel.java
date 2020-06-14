@@ -13,26 +13,15 @@ public class MainActivityViewModel extends ViewModel {
     Random random = new Random();
 
     public int getRandomFlightNumber(){
-
         return random.nextInt(100);
     }
 
     public void init(){
-//        if (mMissions != null){
-//            return;
-//        }
         repository = Repository.getInstance();
         mMissions = repository.getMissions(getRandomFlightNumber());
-
     }
 
     public MutableLiveData<List<MissionResponse>> getMissions() {
-//        Log.i("ViewModel", "getMissions: " + mMissions.getValue().getMission_name());
         return mMissions;
     }
-
-
-
-    //TODO add repository methods for access from MainActivity
-
 }

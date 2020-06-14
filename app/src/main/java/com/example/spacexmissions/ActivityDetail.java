@@ -7,9 +7,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,12 +32,16 @@ public class ActivityDetail extends AppCompatActivity {
         TextView launchSite = findViewById(R.id.launch_site);
         TextView missionIdView = findViewById(R.id.mission_ID);
 
+
         bundle = getIntent().getExtras();
         String missionName = bundle.getString("mission_name");
         String missionDescription = bundle.getString("mission_description");
         String missionPatchURL = bundle.getString("mission_patch_URL");
         String launchSiteName = bundle.getString("launch_site");
         int missionID = bundle.getInt("mission_id");
+
+        getSupportActionBar().setTitle(missionName);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         try {
             Glide.with(this)
@@ -72,16 +76,14 @@ public class ActivityDetail extends AppCompatActivity {
             }
 
             mapsIntent.putExtra("launch_site_location", latLng.get(0));
+            mapsIntent.putExtra("launch_site_name", launchSite);
 
             startActivity(mapsIntent);
 
         }
         catch (Exception e) {
+            Toast.makeText(this, "No location available", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-
-
-
-
     }
 }

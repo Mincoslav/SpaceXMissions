@@ -28,8 +28,6 @@ public interface MissionDao {
     //@Query("DELETE FROM Mission")
     void deleteAllMissions();
 
-
-
     //@Query("SELECT * FROM Mission ORDER BY priority DESC")
     LiveData<List<Mission>> getAllNotes();
 }

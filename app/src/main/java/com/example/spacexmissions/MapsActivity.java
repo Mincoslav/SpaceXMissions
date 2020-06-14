@@ -1,6 +1,6 @@
 package com.example.spacexmissions;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -12,7 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     Bundle bundle;
@@ -22,9 +22,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        bundle = getIntent().getExtras();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        String launchSiteName = bundle.getString("launch_site_name");
+        getSupportActionBar().setTitle(launchSiteName);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     /**
@@ -39,7 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        bundle = getIntent().getExtras();
+
         if (bundle.isEmpty()){
             Toast.makeText(this, "No location available", Toast.LENGTH_SHORT).show();
         }
